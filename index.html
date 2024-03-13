@@ -1,0 +1,161 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+    <style>
+        .container{
+            width: 100%;
+            height: 100%;
+            display: inline-flex;
+            justify-content: center;
+            background-image: url('https://img.freepik.com/free-photo/back-school-decoration-with-pencils-calculator-space_23-2147662344.jpg');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+        }
+        .container-item{
+            box-shadow: 0px 0px 140px black inset;
+            width: 100%;
+            height: 100%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+    
+        }
+        
+        h1{
+            color: white;
+            text-shadow: 0px 0px 5px white;
+            letter-spacing: 10px;
+        }
+        input{
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0px;
+        }
+        button{
+            padding: 10px 20px;
+        }
+        #currAge{
+            height: 13.9%;
+            padding: 20px 0px;
+            letter-spacing: 0.5px;
+            text-align: center;
+            border: 2px solid white;
+            margin: 20px 0px;
+        }
+        @media (min-width: 700px) {
+            .calculator{
+                box-shadow: 1px 1px 10px rgba(255, 255, 255, 0.527),2px 2px 25px rgba(230, 195, 195, 0.61), 15px 15px 30px black ;
+                color: white;
+                padding: 20px;
+                margin-top: 50px;
+                font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+                margin-bottom: 40px;
+                width: 30%;
+                height: 80%;
+            }
+        }
+        @media (max-width: 700px) {
+            .calculator{
+                font-size: 10px;
+                font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+                color: white;
+                width: 100%;
+                height: 100%;
+                padding: 50px 20px;
+                margin-top: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="container-item">
+            
+            <div class="calculator">
+                <h1>AGE CALCULATOR</h1>
+                <div class="dob">
+                    <label for="">Enter your Date of Birth</label>
+                    <input type="date" id="inputDob" value="2000-01-01">
+                </div>
+
+                <br>
+
+                <div class="currDate">
+                    <label for="">Current Date</label>
+                    <input type="date" id="cDate" value="">
+                </div>
+
+                <br>
+
+                <button type="button" id="getDob" onclick="getDOB()">Calculate</button>
+                
+                <br>
+
+                <div id="currAge"></div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function getDOB() {
+            // get input buddy
+            let data = document.getElementById('inputDob').value;
+
+            let dob = new Date(data);
+            let day = dob.getDay();
+            let month = dob.getMonth();
+            let year = dob.getFullYear();
+
+            let now = new Date(document.getElementById('cDate').value);
+            console.log(now);
+            let yearDiff = now.getFullYear() - year;
+            let monthDiff = now.getMonth() - month;
+            let dayDiff = now.getDay() - day;
+
+            if (yearDiff < 0) console.log("invalid date");
+            else if (monthDiff > 0) {
+                console.log(yearDiff);
+            } else if (monthDiff === 0 && dayDiff >= 0) {
+                console.log(yearDiff);
+            } else {
+                yearDiff = yearDiff - 1 ;
+                if (monthDiff <= 0) {
+                    monthDiff = 12 + monthDiff;
+                }else{
+                    monthDiff = 11 - monthDiff
+                }
+            }
+            if (dayDiff < 0){
+                dayDiff = 30 + dayDiff;
+                monthDiff -= 1;
+            }
+
+            if (yearDiff < 0){
+                document.getElementById('currAge').innerHTML = "Invalid Date";
+            }else{
+                document.getElementById('currAge').innerHTML = "your current age is :  " + yearDiff + " years " + monthDiff + " months " + dayDiff + " days ";    
+            }
+        }
+
+        function currDate() {
+            console.log(formatted());
+            let d = document.getElementById('cDate');
+            d.value = formatted();
+        }
+        function formatted(date = new Date()) {
+            return [
+                date.getFullYear(),
+                short(date.getMonth() +1),
+                short(date.getDate()),
+            ].join("-");
+        }
+        function short(num) {
+            return num.toString().padStart(2,"0");
+        }
+    </script>
+</body>
+</html>
